@@ -1,0 +1,91 @@
+{
+  "name": "responsive-video",
+  "version": "1.0.0",
+  "description": "Vue 3 component for dynamically changing video source and poster at breakpoints",
+  "keywords": [
+    "vue",
+    "typescript",
+    "responsive",
+    "video"
+  ],
+  "readme": "./README.md",
+  "license": "LGPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "build:vue": "cross-env BUILD_TARGET=vue vite build && vue-tsc --declaration --emitDeclarationOnly --project tsconfig.vue.json && node ./scripts/rename.js",
+    "build:iife": "cross-env BUILD_TARGET=iife vite build && tsc --project tsconfig.vanilla.json",
+    "build:vanilla": "cross-env BUILD_TARGET=vanilla vite build && tsc --project tsconfig.vanilla.json && node ./scripts/rename.js",
+    "build:react": "echo 'React build not implemented yet'",
+    "build": "npm run build:vue && npm run build:vanilla && npm run build:iife",
+    "test": "echo \"No tests specified\" && exit 1"
+  },
+  "main": "./dist/vanilla/responsive-video.cjs",
+  "module": "./dist/vanilla/responsive-video.mjs",
+  "browser": "./dist/iife/responsive-video.js",
+  "files": [
+    "dist/",
+    "dist/vue",
+    "dist/vue/responsive-video.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/vanilla/responsive-video.d.ts",
+      "require": "./dist/vanilla/responsive-video.cjs",
+      "import": "./dist/vanilla/responsive-video.mjs"
+    },
+    "./iife": {
+      "types": "./dist/iife/responsive-video.d.ts",
+      "require": "./dist/iife/responsive-video.iife.js",
+      "import": "./dist/iife/responsive-video.iife.js"
+    },
+    "./vue": {
+      "types": "./dist/vue/responsive-video.d.ts",
+      "require": "./dist/vue/responsive-video.cjs",
+      "import": "./dist/vue/responsive-video.js"
+    },
+    "./react": {
+      "types": "./dist/react/responsive-video.d.ts",
+      "require": "./dist/react/responsive-video.cjs",
+      "import": "./dist/react/responsive-video.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dankc/Responsive-Video.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dankc/Responsive-Video/issues"
+  },
+  "homepage": "https://github.com/dankc/Responsive-Video#readme",
+  "author": {
+    "name": "Dan Kiser",
+    "email": "dankc@pm.me"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.4.4",
+    "vue": "3.2"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.5.0",
+    "cross-env": "^7.0.3",
+    "rollup": "^4.30.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "typescript": ">=4.4.4",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.5.0",
+    "vue": "3.2",
+    "vue-tsc": "^2.0.0"
+  },
+  "sideEffects": false
+}
