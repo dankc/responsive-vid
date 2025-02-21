@@ -1,7 +1,7 @@
-# Responsive-Video
+# Responsive Video
 
-A Vue 3 component to dynamically change video sources at different viewport widths. 
-It's intended to be used for autoplaying background videos where you'd want to use videos of different files sizes and/or aspect ratios at defined breakpoints. Requires Vue 3.2+
+A collection of scripts and a Vue 3 component (requires Vue 3.2+) to dynamically change video sources at different viewport widths. 
+It's intended to be used for autoplaying background videos where you'd want to use videos of different files sizes and/or aspect ratios at defined breakpoints.
 
 ## How to use
 Install it with npm
