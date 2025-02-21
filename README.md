@@ -82,7 +82,7 @@ const responsiveVideoOpts: ResponsiveVideoOptions = {
 ### Auto version
 #### Supply the options as a data attribute on the video element(s) for the script to find
 
-There are two implementation of this - one a function you can import as a module (Vanilla implementation) and the other's a plain JS function (IIFE implementation). Host the IIFE version on your domain or bundle it in with your other scripts manually, then initialize it (`ResponsiveVideo()`). Or you can import the vanilla version `import { AutoResponsiveVideo } from 'responsive-video/vanilla/responsive-video.js';`, then initialize it (`AutoResponsiveVideo()`).
+There are two implementation of this - one a function you can import as a module (Module build) and the other's a plain JS function (Browser build). Host the browser build on your domain or bundle it in with your other scripts manually, then initialize it (`ResponsiveVideo()`). Or you can import the module build `import { AutoResponsiveVideo } from 'responsive-video/module/responsive-video.js';`, then initialize it (`AutoResponsiveVideo()`).
 It looks for a `data-responsive-video` attribute on video elements to supply it with options in JSON format. 
 
 #### Example:
@@ -105,13 +105,13 @@ It looks for a `data-responsive-video` attribute on video elements to supply it 
 </video>
 
 <!-- ...Below the body tag as a function -->
-<script src="your/path/to/responsive-video.iife.js"></script>
+<script src="your/path/to/browser/build/responsive-video.js"></script>
 <script type="application/javascript">
   window.addEventListener('load', ResponsiveVideo)
 </script>
 <!-- Or as a module -->
 <script type="module">
-  import { AutoResponsiveVideo } from 'responsive-video/vanilla/responsive-video.js';
+  import { AutoResponsiveVideo } from 'responsive-video/module/responsive-video.js';
   window.addEventListener('load', AutoResponsiveVideo)
 </script>
 ```
@@ -122,8 +122,8 @@ If you want more control, or don't want to put the options in the HTML, you can 
 #### Example:
 ```
 // Inside of a .ts file
-import type { ResponsiveVideoOptions } from 'responsive-video/vanilla';
-import { ResponsiveVideo } from 'responsive-video/vanilla';
+import type { ResponsiveVideoOptions } from 'responsive-video/module';
+import { ResponsiveVideo } from 'responsive-video/module';
 
 const videoEl: HTMLVideoElement = document.querySelector('video.your-responsive-video');
 const videoOptions: ResponsiveVideoOptions = {

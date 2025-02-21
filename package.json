@@ -13,32 +13,30 @@
   "type": "module",
   "scripts": {
     "build:vue": "cross-env BUILD_TARGET=vue vite build && vue-tsc --declaration --emitDeclarationOnly --project tsconfig.vue.json && node ./scripts/rename.js",
-    "build:iife": "cross-env BUILD_TARGET=iife vite build && tsc --project tsconfig.vanilla.json",
-    "build:vanilla": "cross-env BUILD_TARGET=vanilla vite build && tsc --project tsconfig.vanilla.json && node ./scripts/rename.js",
+    "build:browser": "cross-env BUILD_TARGET=browser vite build && tsc --project tsconfig.module.json",
+    "build:module": "cross-env BUILD_TARGET=module vite build && tsc --project tsconfig.module.json && node ./scripts/rename.js",
     "build:react": "echo 'React build not implemented yet'",
-    "build": "npm run build:vue && npm run build:vanilla && npm run build:iife",
+    "build": "npm run build:vue && npm run build:module && npm run build:browser",
     "test": "echo \"No tests specified\" && exit 1"
   },
-  "main": "./dist/vanilla/responsive-video.cjs",
-  "module": "./dist/vanilla/responsive-video.mjs",
-  "browser": "./dist/iife/responsive-video.js",
+  "main": "./dist/module/responsive-video.cjs",
+  "module": "./dist/module/responsive-video.mjs",
+  "browser": "./dist/browser/responsive-video.js",
   "files": [
-    "dist/",
+    "dist/browser",
+    "dist/module",
     "dist/vue",
-    "dist/vue/responsive-video.d.ts",
     "LICENSE",
     "README.md"
   ],
   "exports": {
     ".": {
-      "types": "./dist/vanilla/responsive-video.d.ts",
-      "require": "./dist/vanilla/responsive-video.cjs",
-      "import": "./dist/vanilla/responsive-video.mjs"
+      "types": "./dist/module/responsive-video.d.ts",
+      "require": "./dist/module/responsive-video.cjs",
+      "import": "./dist/module/responsive-video.mjs"
     },
-    "./iife": {
-      "types": "./dist/iife/responsive-video.d.ts",
-      "require": "./dist/iife/responsive-video.iife.js",
-      "import": "./dist/iife/responsive-video.iife.js"
+    "./browser": {
+      "default": "./dist/browser/responsive-video.js"
     },
     "./vue": {
       "types": "./dist/vue/responsive-video.d.ts",

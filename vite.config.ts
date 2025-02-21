@@ -2,18 +2,18 @@ import { resolve } from 'path'
 import { defineConfig, type LibraryFormats } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-type BuildTypes = 'vue' | 'vanilla' | 'iife'
+type BuildTypes = 'vue' | 'module' | 'browser'
 
 const formats: {[K in BuildTypes]: LibraryFormats[]} = {
-  iife: ['iife'],
+  browser: ['iife'],
   vue: ['es', 'cjs'],
-  vanilla: ['es', 'cjs'],
+  module: ['es', 'cjs'],
 }
 
 const entries = {
-  iife: 'src/iife/responsive-video.ts',
+  browser: 'src/browser/responsive-video.ts',
   vue: 'src/vue/ResponsiveVideo.vue',
-  vanilla: 'src/vanilla/responsive-video.ts',
+  module: 'src/module/responsive-video.ts',
 }
 
 // Helper to create build configuration based on target
@@ -34,6 +34,7 @@ function createBuildConfig(target: BuildTypes) {
         entry: resolve(__dirname, entries[target]),
         name: 'ResponsiveVideo',
         formats: formats[target],
+        fileName: target === 'browser' ? () => 'responsive-video.js' : undefined
       },
       rollupOptions: {
         external: isVue ? ['vue'] : [],

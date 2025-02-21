@@ -17,12 +17,12 @@
         },
         "typeRoots": ["./node_modules/@types"],
         "baseUrl": ".",
-        "outDir": "./dist/vanilla/",
+        "outDir": "./dist/module/",
         "removeComments": true,
         "verbatimModuleSyntax": true
     },
     "include": [
-        "src/vanilla/**/*.ts",
+        "src/module/**/*.ts",
         "src/**/*.d.ts"
     ],
     "exclude": ["node_modules", "dist"]
