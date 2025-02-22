@@ -119,11 +119,12 @@ class ResponsiveVideo {
   init() {
     this.breakpoints.forEach( (breakpoint) => {
       const bp = validateBreakpoint( breakpoint );
+      const mediaQuery = window.matchMedia( bp );
 
       // Initially add the appropriate video
-      if ( window.matchMedia( bp ).matches ) addVideo( { videoEl: this.videoEl, options: this.options, breakpoint } );
+      if ( mediaQuery.matches ) addVideo( { videoEl: this.videoEl, options: this.options, breakpoint } );
 
-      window.matchMedia( bp ).addEventListener( 'change', ({ matches }) => {
+      mediaQuery.addEventListener( 'change', ({ matches }) => {
         if ( matches ) {
           addVideo( { videoEl: this.videoEl, options: this.options, breakpoint } );
         }

@@ -1,5 +1,5 @@
-import { defineComponent as h, toRefs as E, ref as d, onMounted as M, openBlock as v, createElementBlock as m, mergeProps as T, Fragment as w, renderList as A, renderSlot as B } from "vue";
-const V = h({
+import { defineComponent as T, toRefs as E, ref as c, onMounted as M, openBlock as v, createElementBlock as m, mergeProps as _, Fragment as w, renderList as A, renderSlot as B } from "vue";
+const q = T({
   name: "ResponsiveVideo",
   props: {
     options: {
@@ -13,7 +13,7 @@ const V = h({
     }
   },
   setup(t) {
-    const { options: o, isautoplay: r } = E(t), c = Object.keys(o.value), l = [
+    const { options: n, isautoplay: u } = E(t), l = Object.keys(n.value), i = [
       "mp4",
       // MPEG-4 Video
       "webm",
@@ -32,47 +32,55 @@ const V = h({
       // 3GPP Video
       "3gpp2"
       // 3GPP2 Video
-    ], s = d(), n = d([]), u = d(), f = r.value ? { muted: !0, autoplay: !0, loop: !0, playsinline: !0 } : {}, y = (e) => {
-      const i = e.split("."), a = i[i.length - 1];
-      return l.includes(a) ? `video/${a}` : void 0;
-    }, g = (e) => (e = /^\(/.test(e) ? e : `(${e}`, /\)$/.test(e) ? e : `${e})`), _ = () => {
-      c.forEach((e) => {
-        const i = g(e);
-        window.matchMedia(i).addEventListener("change", () => {
-          const a = s.value?.currentTime || 0, { src: p, poster: $ } = o.value[e];
-          u.value = $ || u.value || void 0, n.value = Array.isArray(p) ? [...p] : [p], s.value?.load(), s.value && (s.value.currentTime = a < s.value.duration ? a : 0), s.value?.play();
+    ], o = c(), r = c([]), d = c(), p = c(0), y = u.value ? { muted: !0, autoplay: !0, loop: !0, playsinline: !0 } : {}, g = (e) => {
+      const s = e.split("."), a = s[s.length - 1];
+      return i.includes(a) ? `video/${a}` : void 0;
+    }, h = (e) => (e = /^\(/.test(e) ? e : `(${e}`, /\)$/.test(e) ? e : `${e})`), $ = () => {
+      o.value && (o.value.currentTime = p.value < o.value?.duration ? p.value : 0, o.value.play());
+    }, f = (e) => {
+      const { src: s, poster: a } = n.value[e];
+      o.value?.pause(), p.value = o.value?.currentTime || 0, d.value = a || d.value || void 0, r.value = Array.isArray(s) ? [...s] : [s], o.value?.load();
+    }, V = () => {
+      l.forEach((e) => {
+        const s = h(e), a = window.matchMedia(s);
+        a.matches && f(e), a.addEventListener("change", ({ matches: L }) => {
+          L && f(e);
         });
       });
     };
     return M(() => {
-      _();
+      V(), console.log("test 2");
     }), {
-      backgroundVideoAttrs: f,
-      getMediaType: y,
-      poster: u,
-      sources: n
+      backgroundVideoAttrs: y,
+      getMediaType: g,
+      handleVideoLoad: $,
+      poster: d,
+      sources: r,
+      videoEl: o
     };
   }
-}), k = (t, o) => {
-  const r = t.__vccOpts || t;
-  for (const [c, l] of o)
-    r[c] = l;
-  return r;
-}, q = ["poster"], O = ["src", "type"];
-function R(t, o, r, c, l, s) {
-  return v(), m("video", T({
+}), O = (t, n) => {
+  const u = t.__vccOpts || t;
+  for (const [l, i] of n)
+    u[l] = i;
+  return u;
+}, R = ["poster"], j = ["src", "type"];
+function k(t, n, u, l, i, o) {
+  return v(), m("video", _({
     ref: "videoEl",
     poster: t.poster
-  }, t.backgroundVideoAttrs), [
-    (v(!0), m(w, null, A(t.sources, (n, u) => (v(), m("source", {
-      key: u,
-      src: n,
-      type: t.getMediaType(n)
-    }, null, 8, O))), 128)),
+  }, t.backgroundVideoAttrs, {
+    onLoadedmetadata: n[0] || (n[0] = (...r) => t.handleVideoLoad && t.handleVideoLoad(...r))
+  }), [
+    (v(!0), m(w, null, A(t.sources, (r, d) => (v(), m("source", {
+      key: d,
+      src: r,
+      type: t.getMediaType(r)
+    }, null, 8, j))), 128)),
     B(t.$slots, "default")
-  ], 16, q);
+  ], 16, R);
 }
-const L = /* @__PURE__ */ k(V, [["render", R]]);
+const C = /* @__PURE__ */ O(q, [["render", k]]);
 export {
-  L as default
+  C as default
 };

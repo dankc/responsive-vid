@@ -1,5 +1,5 @@
 <template>
-  <video ref="videoEl" :poster="poster" v-bind="backgroundVideoAttrs">
+  <video ref="videoEl" :poster="poster" v-bind="backgroundVideoAttrs" @loadedmetadata="handleVideoLoad">
     <source
         v-for="(source, index) in sources"
         :key="index"
@@ -53,6 +53,7 @@ export default defineComponent({
     const videoEl = ref<HTMLVideoElement>();
     const sources = ref<string[]>([]);
     const poster = ref<string | undefined>();
+    const currentTime = ref(0);
     const backgroundVideoAttrs = isautoplay.value
                                  ? { muted: true, autoplay: true, loop: true, playsinline: true }
                                  : {};
@@ -67,20 +68,31 @@ export default defineComponent({
       breakpoint = /^\(/.test(breakpoint) ? breakpoint : `(${breakpoint}`;
       return /\)$/.test(breakpoint) ? breakpoint : `${breakpoint})`;
     };
+    const handleVideoLoad = () => {
+      if( videoEl.value ) {
+        videoEl.value.currentTime = currentTime.value < videoEl.value?.duration ? currentTime.value : 0;
+        videoEl.value.play();
+      }
+    };
+    const setVideo = (breakpoint: string): void => {
+      const { src, poster: pstr } = options.value[breakpoint];
+      videoEl.value?.pause();
+      currentTime.value = videoEl.value?.currentTime || 0;
+
+      poster.value = pstr || poster.value || undefined;
+      sources.value = Array.isArray(src) ? [...src] : [src];
+
+      videoEl.value?.load();
+    }
     const generateQueries = () => {
       breakpoints.forEach((breakpoint) => {
         const bp = validateBreakpoint(breakpoint);
+        const mediaQuery = window.matchMedia(bp);
 
-        window.matchMedia(bp).addEventListener('change', () => {
-          const currentProgress = videoEl.value?.currentTime || 0;
-          const { src, poster: pstr } = options.value[breakpoint];
+        if( mediaQuery.matches ) setVideo(breakpoint);
 
-          poster.value = pstr || poster.value || undefined;
-          sources.value = Array.isArray(src) ? [...src] : [src];
-
-          videoEl.value?.load();
-          if( videoEl.value ) videoEl.value.currentTime = currentProgress < videoEl.value.duration ? currentProgress : 0;
-          videoEl.value?.play();
+        mediaQuery.addEventListener('change', ({matches}) => {
+          if( matches ) setVideo(breakpoint);
         });
       });
     };
@@ -92,8 +104,10 @@ export default defineComponent({
     return {
       backgroundVideoAttrs,
       getMediaType,
+      handleVideoLoad,
       poster,
       sources,
+      videoEl,
     }
   },
 })

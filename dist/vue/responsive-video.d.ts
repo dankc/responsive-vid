@@ -29,8 +29,10 @@ declare const _default: import("vue").DefineComponent<{
         playsinline?: undefined;
     };
     getMediaType: (url: string) => string | undefined;
+    handleVideoLoad: () => void;
     poster: import("vue").Ref<string | undefined>;
     sources: import("vue").Ref<string[]>;
+    videoEl: import("vue").Ref<HTMLVideoElement | undefined>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     options: {
         type: PropType<ResponsiveVideoOptions>;
