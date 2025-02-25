@@ -1,5 +1,5 @@
-import { defineComponent as T, toRefs as E, ref as c, onMounted as M, openBlock as v, createElementBlock as m, mergeProps as _, Fragment as w, renderList as A, renderSlot as B } from "vue";
-const q = T({
+import { defineComponent as h, toRefs as E, ref as l, onMounted as M, openBlock as v, createElementBlock as m, mergeProps as w, Fragment as A, renderList as B, renderSlot as q } from "vue";
+const O = h({
   name: "ResponsiveVideo",
   props: {
     options: {
@@ -13,7 +13,7 @@ const q = T({
     }
   },
   setup(t) {
-    const { options: n, isautoplay: u } = E(t), l = Object.keys(n.value), i = [
+    const { options: s, isautoplay: u } = E(t), i = Object.keys(s.value), p = [
       "mp4",
       // MPEG-4 Video
       "webm",
@@ -32,55 +32,58 @@ const q = T({
       // 3GPP Video
       "3gpp2"
       // 3GPP2 Video
-    ], o = c(), r = c([]), d = c(), p = c(0), y = u.value ? { muted: !0, autoplay: !0, loop: !0, playsinline: !0 } : {}, g = (e) => {
-      const s = e.split("."), a = s[s.length - 1];
-      return i.includes(a) ? `video/${a}` : void 0;
-    }, h = (e) => (e = /^\(/.test(e) ? e : `(${e}`, /\)$/.test(e) ? e : `${e})`), $ = () => {
-      o.value && (o.value.currentTime = p.value < o.value?.duration ? p.value : 0, o.value.play());
-    }, f = (e) => {
-      const { src: s, poster: a } = n.value[e];
-      o.value?.pause(), p.value = o.value?.currentTime || 0, d.value = a || d.value || void 0, r.value = Array.isArray(s) ? [...s] : [s], o.value?.load();
-    }, V = () => {
-      l.forEach((e) => {
-        const s = h(e), a = window.matchMedia(s);
-        a.matches && f(e), a.addEventListener("change", ({ matches: L }) => {
-          L && f(e);
+    ], o = l(), r = l([]), d = l(), c = l(0), f = l(!u.value), g = u.value ? { muted: !0, autoplay: !0, loop: !0, playsinline: !0 } : {}, $ = (e) => {
+      const n = e.split("."), a = n[n.length - 1];
+      return p.includes(a) ? `video/${a}` : void 0;
+    }, V = (e) => (e = /^\(/.test(e) ? e : `(${e}`, /\)$/.test(e) ? e : `${e})`), L = () => {
+      o.value && (o.value.currentTime = c.value < o.value?.duration ? c.value : 0, f.value || o.value.play());
+    }, y = (e) => {
+      const { src: n, poster: a } = s.value[e];
+      o.value?.pause(), c.value = o.value?.currentTime || 0, d.value = a || d.value || void 0, r.value = Array.isArray(n) ? [...n] : [n], o.value?.load();
+    }, P = () => {
+      i.forEach((e) => {
+        const n = V(e), a = window.matchMedia(n);
+        a.matches && y(e), a.addEventListener("change", ({ matches: T }) => {
+          T && y(e);
         });
       });
     };
     return M(() => {
-      V(), console.log("test 2");
+      P();
     }), {
-      backgroundVideoAttrs: y,
-      getMediaType: g,
-      handleVideoLoad: $,
+      backgroundVideoAttrs: g,
+      getMediaType: $,
+      handleVideoLoad: L,
+      isPaused: f,
       poster: d,
       sources: r,
       videoEl: o
     };
   }
-}), O = (t, n) => {
+}), R = (t, s) => {
   const u = t.__vccOpts || t;
-  for (const [l, i] of n)
-    u[l] = i;
+  for (const [i, p] of s)
+    u[i] = p;
   return u;
-}, R = ["poster"], j = ["src", "type"];
-function k(t, n, u, l, i, o) {
-  return v(), m("video", _({
+}, j = ["poster"], k = ["src", "type"];
+function Q(t, s, u, i, p, o) {
+  return v(), m("video", w({
     ref: "videoEl",
     poster: t.poster
   }, t.backgroundVideoAttrs, {
-    onLoadedmetadata: n[0] || (n[0] = (...r) => t.handleVideoLoad && t.handleVideoLoad(...r))
+    onLoadedmetadata: s[0] || (s[0] = (...r) => t.handleVideoLoad && t.handleVideoLoad(...r)),
+    onPause: s[1] || (s[1] = () => t.isPaused = !0),
+    onPlay: s[2] || (s[2] = () => t.isPaused = !1)
   }), [
-    (v(!0), m(w, null, A(t.sources, (r, d) => (v(), m("source", {
+    (v(!0), m(A, null, B(t.sources, (r, d) => (v(), m("source", {
       key: d,
       src: r,
       type: t.getMediaType(r)
-    }, null, 8, j))), 128)),
-    B(t.$slots, "default")
-  ], 16, R);
+    }, null, 8, k))), 128)),
+    q(t.$slots, "default")
+  ], 16, j);
 }
-const C = /* @__PURE__ */ O(q, [["render", k]]);
+const F = /* @__PURE__ */ R(O, [["render", Q]]);
 export {
-  C as default
+  F as default
 };

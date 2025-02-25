@@ -37,63 +37,13 @@ function validateBreakpoint(breakpoint: string): string {
   return /\)$/.test( breakpoint ) ? breakpoint : `${ breakpoint })`;
 }
 
-const addVideo = (
-  { videoEl, options, breakpoint }: {
-    videoEl: HTMLVideoElement,
-    options: ResponsiveVideoOptions,
-    breakpoint: Breakpoint
-  }
-): void => {
-  const currentProgress = videoEl.currentTime;
-  const { src, poster } = options[breakpoint];
-  const sources = Array.isArray( src ) ? [ ...src ] : [ src ];
-  const listenerFn = () => {
-    videoEl.currentTime = currentProgress < videoEl.duration ? currentProgress : 0;
-    videoEl.play();
-    videoEl.removeEventListener( 'loadedmetadata', listenerFn );
-  }
-
-  videoEl.pause();
-
-  if ( poster ) videoEl.setAttribute( 'poster', poster );
-
-  videoEl.querySelectorAll( 'source' )?.forEach( (sourceEl: HTMLSourceElement) => {
-    sourceEl.remove();
-  } )
-
-  sources.forEach( source => {
-    const sourceEl = document.createElement( 'source' );
-    const type = getMediaType( source );
-    sourceEl.setAttribute( 'src', source );
-    if ( type ) sourceEl.setAttribute( 'type', type );
-    else sourceEl.removeAttribute( 'type' );
-    videoEl.appendChild( sourceEl );
-  } );
-
-  videoEl.addEventListener( 'loadedmetadata', listenerFn );
-  videoEl.load();
-}
-
 // Supply the options in the DOM and have the script find them for you
 function AutoResponsiveVideo(): void {
   const videoEls = getResponsiveVideos();
   videoEls.forEach( (videoEl) => {
     const options: ResponsiveVideoOptions = JSON.parse( videoEl.dataset.responsiveVideo );
-    const breakpoints: Breakpoint[] = (Object.keys( options ) as Breakpoint[]);
-
-    breakpoints.forEach( (breakpoint) => {
-      const bp = validateBreakpoint( breakpoint );
-
-      // Initially add the appropriate video
-      if ( window.matchMedia( bp ).matches ) addVideo( { videoEl, options, breakpoint } );
-
-      window.matchMedia( bp ).addEventListener( 'change', ({ matches }) => {
-        if ( matches ) {
-          addVideo( { videoEl, options, breakpoint } );
-        }
-      } );
-    } );
-  } );
+    new ResponsiveVideo({el: videoEl, options})
+  });
 }
 
 // Manually set up your responsive videos in JS
@@ -101,6 +51,7 @@ class ResponsiveVideo {
   private readonly videoEl: HTMLVideoElement;
   private readonly options: ResponsiveVideoOptions;
   private breakpoints: Breakpoint[];
+  private isPaused: boolean;
 
   constructor({ el, options }: { el: HTMLVideoElement, options: ResponsiveVideoOptions }) {
     if ( !Object.keys( options ).length ) {
@@ -113,23 +64,63 @@ class ResponsiveVideo {
     this.videoEl = el;
     this.options = options;
     this.breakpoints = (Object.keys( options ) as Breakpoint[]);
+    this.isPaused = this.videoEl.paused;
     this.init();
   }
 
   init() {
+    this.videoEl.addEventListener( 'pause', this.pauseListener);
+    this.videoEl.addEventListener( 'play', this.playListener);
     this.breakpoints.forEach( (breakpoint) => {
       const bp = validateBreakpoint( breakpoint );
       const mediaQuery = window.matchMedia( bp );
 
       // Initially add the appropriate video
-      if ( mediaQuery.matches ) addVideo( { videoEl: this.videoEl, options: this.options, breakpoint } );
+      if ( mediaQuery.matches ) this.addVideo( breakpoint );
 
       mediaQuery.addEventListener( 'change', ({ matches }) => {
         if ( matches ) {
-          addVideo( { videoEl: this.videoEl, options: this.options, breakpoint } );
+          this.addVideo( breakpoint );
         }
-      } );
-    } );
+      });
+    });
+  }
+
+  playListener = ()=> {
+    this.isPaused = false;
+  }
+
+  pauseListener = ()=> {
+    this.isPaused = true;
+  }
+
+  addVideo(breakpoint: Breakpoint): void {
+    const currentProgress = this.videoEl.currentTime;
+    const { src, poster } = this.options[breakpoint];
+    const sources = Array.isArray( src ) ? [ ...src ] : [ src ];
+    const loadListener = () => {
+      this.videoEl.currentTime = currentProgress < this.videoEl.duration ? currentProgress : 0;
+      if( this.isPaused === false ) this.videoEl.play();
+      this.videoEl.removeEventListener( 'loadedmetadata', loadListener );
+    };
+
+    if ( poster ) this.videoEl.setAttribute( 'poster', poster );
+
+    this.videoEl.querySelectorAll( 'source' )?.forEach( (sourceEl: HTMLSourceElement) => {
+      sourceEl.remove();
+    });
+
+    sources.forEach( source => {
+      const sourceEl = document.createElement( 'source' );
+      const type = getMediaType( source );
+      sourceEl.setAttribute( 'src', source );
+      if ( type ) sourceEl.setAttribute( 'type', type );
+      else sourceEl.removeAttribute( 'type' );
+      this.videoEl.appendChild( sourceEl );
+    });
+
+    this.videoEl.addEventListener( 'loadedmetadata', loadListener );
+    this.videoEl.load();
   }
 }
 

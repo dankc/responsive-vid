@@ -1,5 +1,11 @@
 <template>
-  <video ref="videoEl" :poster="poster" v-bind="backgroundVideoAttrs" @loadedmetadata="handleVideoLoad">
+  <video ref="videoEl"
+         :poster="poster"
+         v-bind="backgroundVideoAttrs"
+         @loadedmetadata="handleVideoLoad"
+         @pause="() => isPaused = true"
+         @play="() => isPaused = false"
+  >
     <source
         v-for="(source, index) in sources"
         :key="index"
@@ -54,6 +60,7 @@ export default defineComponent({
     const sources = ref<string[]>([]);
     const poster = ref<string | undefined>();
     const currentTime = ref(0);
+    const isPaused = ref(!isautoplay.value);
     const backgroundVideoAttrs = isautoplay.value
                                  ? { muted: true, autoplay: true, loop: true, playsinline: true }
                                  : {};
@@ -71,7 +78,7 @@ export default defineComponent({
     const handleVideoLoad = () => {
       if( videoEl.value ) {
         videoEl.value.currentTime = currentTime.value < videoEl.value?.duration ? currentTime.value : 0;
-        videoEl.value.play();
+        if ( !isPaused.value ) videoEl.value.play();
       }
     };
     const setVideo = (breakpoint: string): void => {
@@ -91,7 +98,7 @@ export default defineComponent({
 
         if( mediaQuery.matches ) setVideo(breakpoint);
 
-        mediaQuery.addEventListener('change', ({matches}) => {
+        mediaQuery.addEventListener('change', ({ matches }) => {
           if( matches ) setVideo(breakpoint);
         });
       });
@@ -105,6 +112,7 @@ export default defineComponent({
       backgroundVideoAttrs,
       getMediaType,
       handleVideoLoad,
+      isPaused,
       poster,
       sources,
       videoEl,

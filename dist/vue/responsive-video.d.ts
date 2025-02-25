@@ -30,6 +30,7 @@ declare const _default: import("vue").DefineComponent<{
     };
     getMediaType: (url: string) => string | undefined;
     handleVideoLoad: () => void;
+    isPaused: import("vue").Ref<boolean>;
     poster: import("vue").Ref<string | undefined>;
     sources: import("vue").Ref<string[]>;
     videoEl: import("vue").Ref<HTMLVideoElement | undefined>;
