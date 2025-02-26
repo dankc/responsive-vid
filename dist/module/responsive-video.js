@@ -30,11 +30,47 @@ function AutoResponsiveVideo() {
     });
 }
 class ResponsiveVideo {
-    videoEl;
-    options;
-    breakpoints;
-    isPaused;
     constructor({ el, options }) {
+        Object.defineProperty(this, "videoEl", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "options", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "breakpoints", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "isPaused", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "playListener", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: () => {
+                this.isPaused = false;
+            }
+        });
+        Object.defineProperty(this, "pauseListener", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: () => {
+                this.isPaused = true;
+            }
+        });
         if (!Object.keys(options).length) {
             throw Error('No options provided to responsive-video.js');
         }
@@ -62,13 +98,8 @@ class ResponsiveVideo {
             });
         });
     }
-    playListener = () => {
-        this.isPaused = false;
-    };
-    pauseListener = () => {
-        this.isPaused = true;
-    };
     addVideo(breakpoint) {
+        var _a;
         const currentProgress = this.videoEl.currentTime;
         const { src, poster } = this.options[breakpoint];
         const sources = Array.isArray(src) ? [...src] : [src];
@@ -80,7 +111,7 @@ class ResponsiveVideo {
         };
         if (poster)
             this.videoEl.setAttribute('poster', poster);
-        this.videoEl.querySelectorAll('source')?.forEach((sourceEl) => {
+        (_a = this.videoEl.querySelectorAll('source')) === null || _a === void 0 ? void 0 : _a.forEach((sourceEl) => {
             sourceEl.remove();
         });
         sources.forEach(source => {

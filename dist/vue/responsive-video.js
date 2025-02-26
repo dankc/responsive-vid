@@ -1,5 +1,5 @@
-import { defineComponent as h, toRefs as E, ref as l, onMounted as M, openBlock as v, createElementBlock as m, mergeProps as w, Fragment as A, renderList as B, renderSlot as q } from "vue";
-const O = h({
+import { defineComponent as M, toRefs as w, ref as l, onMounted as A, openBlock as m, createElementBlock as f, mergeProps as B, Fragment as q, renderList as O, renderSlot as R } from "vue";
+const j = M({
   name: "ResponsiveVideo",
   props: {
     options: {
@@ -13,7 +13,7 @@ const O = h({
     }
   },
   setup(t) {
-    const { options: s, isautoplay: u } = E(t), i = Object.keys(s.value), p = [
+    const { options: s, isautoplay: u } = w(t), i = Object.keys(s.value), p = [
       "mp4",
       // MPEG-4 Video
       "webm",
@@ -32,42 +32,44 @@ const O = h({
       // 3GPP Video
       "3gpp2"
       // 3GPP2 Video
-    ], o = l(), r = l([]), d = l(), c = l(0), f = l(!u.value), g = u.value ? { muted: !0, autoplay: !0, loop: !0, playsinline: !0 } : {}, $ = (e) => {
+    ], o = l(), r = l([]), d = l(), v = l(0), y = l(!u.value), L = u.value ? { muted: !0, autoplay: !0, loop: !0, playsinline: !0 } : {}, P = (e) => {
       const n = e.split("."), a = n[n.length - 1];
       return p.includes(a) ? `video/${a}` : void 0;
-    }, V = (e) => (e = /^\(/.test(e) ? e : `(${e}`, /\)$/.test(e) ? e : `${e})`), L = () => {
-      o.value && (o.value.currentTime = c.value < o.value?.duration ? c.value : 0, f.value || o.value.play());
-    }, y = (e) => {
+    }, T = (e) => (e = /^\(/.test(e) ? e : `(${e}`, /\)$/.test(e) ? e : `${e})`), h = () => {
+      var e;
+      o.value && (o.value.currentTime = v.value < ((e = o.value) == null ? void 0 : e.duration) ? v.value : 0, y.value || o.value.play());
+    }, g = (e) => {
+      var c, $, V;
       const { src: n, poster: a } = s.value[e];
-      o.value?.pause(), c.value = o.value?.currentTime || 0, d.value = a || d.value || void 0, r.value = Array.isArray(n) ? [...n] : [n], o.value?.load();
-    }, P = () => {
+      (c = o.value) == null || c.pause(), v.value = (($ = o.value) == null ? void 0 : $.currentTime) || 0, d.value = a || d.value || void 0, r.value = Array.isArray(n) ? [...n] : [n], (V = o.value) == null || V.load();
+    }, E = () => {
       i.forEach((e) => {
-        const n = V(e), a = window.matchMedia(n);
-        a.matches && y(e), a.addEventListener("change", ({ matches: T }) => {
-          T && y(e);
+        const n = T(e), a = window.matchMedia(n);
+        a.matches && g(e), a.addEventListener("change", ({ matches: c }) => {
+          c && g(e);
         });
       });
     };
-    return M(() => {
-      P();
+    return A(() => {
+      E();
     }), {
-      backgroundVideoAttrs: g,
-      getMediaType: $,
-      handleVideoLoad: L,
-      isPaused: f,
+      backgroundVideoAttrs: L,
+      getMediaType: P,
+      handleVideoLoad: h,
+      isPaused: y,
       poster: d,
       sources: r,
       videoEl: o
     };
   }
-}), R = (t, s) => {
+}), k = (t, s) => {
   const u = t.__vccOpts || t;
   for (const [i, p] of s)
     u[i] = p;
   return u;
-}, j = ["poster"], k = ["src", "type"];
-function Q(t, s, u, i, p, o) {
-  return v(), m("video", w({
+}, Q = ["poster"], C = ["src", "type"];
+function F(t, s, u, i, p, o) {
+  return m(), f("video", B({
     ref: "videoEl",
     poster: t.poster
   }, t.backgroundVideoAttrs, {
@@ -75,15 +77,15 @@ function Q(t, s, u, i, p, o) {
     onPause: s[1] || (s[1] = () => t.isPaused = !0),
     onPlay: s[2] || (s[2] = () => t.isPaused = !1)
   }), [
-    (v(!0), m(A, null, B(t.sources, (r, d) => (v(), m("source", {
+    (m(!0), f(q, null, O(t.sources, (r, d) => (m(), f("source", {
       key: d,
       src: r,
       type: t.getMediaType(r)
-    }, null, 8, k))), 128)),
-    q(t.$slots, "default")
-  ], 16, j);
+    }, null, 8, C))), 128)),
+    R(t.$slots, "default")
+  ], 16, Q);
 }
-const F = /* @__PURE__ */ R(O, [["render", Q]]);
+const z = /* @__PURE__ */ k(j, [["render", F]]);
 export {
-  F as default
+  z as default
 };

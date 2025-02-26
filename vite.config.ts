@@ -29,7 +29,7 @@ function createBuildConfig(target: BuildTypes) {
     build: {
       emptyOutDir: false,
       outDir: `./dist/${target}`,
-      target: 'esnext',
+      target: 'es6',
       lib: {
         entry: resolve(__dirname, entries[target]),
         name: 'ResponsiveVideo',
