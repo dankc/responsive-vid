@@ -1,7 +1,7 @@
 {
   "name": "responsive-video",
   "version": "1.0.0",
-  "description": "Vue 3 component for dynamically changing video source and poster at breakpoints",
+  "description": "A TypeScript-supported library for Vue, JS modules, and browser scripts to dynamically swap video sources and posters based on media queries",
   "keywords": [
     "vue",
     "typescript",
@@ -20,7 +20,8 @@
     "test": "echo \"No tests specified\" && exit 1"
   },
   "main": "./dist/module/responsive-video.cjs",
-  "module": "./dist/module/responsive-video.mjs",
+  "module": "./dist/module/responsive-video.js",
+  "types": "./dist/module/responsive-video.d.ts",
   "browser": "./dist/browser/responsive-video.js",
   "files": [
     "dist/browser",
@@ -33,7 +34,7 @@
     ".": {
       "types": "./dist/module/responsive-video.d.ts",
       "require": "./dist/module/responsive-video.cjs",
-      "import": "./dist/module/responsive-video.mjs"
+      "import": "./dist/module/responsive-video.js"
     },
     "./browser": {
       "default": "./dist/browser/responsive-video.js"
@@ -46,7 +47,7 @@
     "./react": {
       "types": "./dist/react/responsive-video.d.ts",
       "require": "./dist/react/responsive-video.cjs",
-      "import": "./dist/react/responsive-video.mjs"
+      "import": "./dist/react/responsive-video.js"
     },
     "./package.json": "./package.json"
   },
@@ -63,11 +64,10 @@
     "email": "dankc@pm.me"
   },
   "peerDependencies": {
-    "typescript": ">=4.4.4",
-    "vue": "3.2"
+    "vue": "^3.2"
   },
   "peerDependenciesMeta": {
-    "typescript": {
+    "vue": {
       "optional": true
     }
   },

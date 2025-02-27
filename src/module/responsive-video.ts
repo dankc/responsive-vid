@@ -4,7 +4,7 @@ type BreakpointOptions = {
   src: string | string[];
   poster?: string;
 };
-type Breakpoint = string & { readonly __brand: unique symbol };
+type Breakpoint = `${'('}${string}${')'}`;
 export type ResponsiveVideoOptions = {
   [key: Breakpoint]: BreakpointOptions;
 };

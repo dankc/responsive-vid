@@ -3,21 +3,22 @@ type BreakpointOptions = {
     src: string | string[];
     poster?: string;
 };
+type Breakpoint = `${'('}${string}${')'}`;
 export type ResponsiveVideoOptions = {
-    [key: string]: BreakpointOptions;
+    [key: Breakpoint]: BreakpointOptions;
 };
 declare const _default: import("vue").DefineComponent<{
     options: {
         type: PropType<ResponsiveVideoOptions>;
         required: true;
     };
-    isautoplay: {
+    isAutoplay: {
         type: BooleanConstructor;
         required: false;
         default: boolean;
     };
 }, {
-    backgroundVideoAttrs: {
+    backgroundVideoAttrs: import("vue").ComputedRef<{
         muted: boolean;
         autoplay: boolean;
         loop: boolean;
@@ -27,7 +28,7 @@ declare const _default: import("vue").DefineComponent<{
         autoplay?: undefined;
         loop?: undefined;
         playsinline?: undefined;
-    };
+    }>;
     getMediaType: (url: string) => string | undefined;
     handleVideoLoad: () => void;
     isPaused: import("vue").Ref<boolean>;
@@ -39,12 +40,12 @@ declare const _default: import("vue").DefineComponent<{
         type: PropType<ResponsiveVideoOptions>;
         required: true;
     };
-    isautoplay: {
+    isAutoplay: {
         type: BooleanConstructor;
         required: false;
         default: boolean;
     };
 }>>, {
-    isautoplay: boolean;
+    isAutoplay: boolean;
 }>;
 export default _default;

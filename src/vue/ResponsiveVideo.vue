@@ -19,14 +19,15 @@
 
 <script lang="ts">
 import type { PropType } from 'vue';
-import { defineComponent, onMounted, ref, toRefs } from 'vue';
+import { computed, defineComponent, onMounted, ref, toRefs } from 'vue';
 
 type BreakpointOptions = {
   src: string | string[];
   poster?: string;
 };
+type Breakpoint = `${'('}${string}${')'}`;
 export type ResponsiveVideoOptions = {
-  [key: string]: BreakpointOptions;
+  [key: Breakpoint]: BreakpointOptions;
 };
 
 export default defineComponent({
@@ -36,15 +37,15 @@ export default defineComponent({
       type: Object as PropType<ResponsiveVideoOptions>,
       required: true,
     },
-    isautoplay: {
+    isAutoplay: {
       type: Boolean,
       required: false,
       default: false,
     }
   },
   setup(props) {
-    const { options, isautoplay } = toRefs(props);
-    const breakpoints = Object.keys(options.value);
+    const { options, isAutoplay } = toRefs(props);
+    const breakpoints = Object.keys(options.value) as Breakpoint[];
     const validMimeTypes = [
       'mp4', // MPEG-4 Video
       'webm', // WebM Video
@@ -60,17 +61,17 @@ export default defineComponent({
     const sources = ref<string[]>([]);
     const poster = ref<string | undefined>();
     const currentTime = ref(0);
-    const isPaused = ref(!isautoplay.value);
-    const backgroundVideoAttrs = isautoplay.value
-                                 ? { muted: true, autoplay: true, loop: true, playsinline: true }
-                                 : {};
+    const isPaused = ref(!isAutoplay.value);
+    const backgroundVideoAttrs = computed( () =>
+        isAutoplay.value ? { muted: true, autoplay: true, loop: true, playsinline: true }: {}
+    );
     const getMediaType = (url: string) => {
       const splits = url.split('.');
       const type = splits[splits.length - 1];
       // Return undefined if video is an url
       return validMimeTypes.includes(type) ? `video/${type}` : undefined;
     };
-    const validateBreakpoint = (breakpoint: string) => {
+    const validateBreakpoint = (breakpoint: Breakpoint) => {
       // Find any missing parenthesis and add them to the media query
       breakpoint = /^\(/.test(breakpoint) ? breakpoint : `(${breakpoint}`;
       return /\)$/.test(breakpoint) ? breakpoint : `${breakpoint})`;
@@ -81,7 +82,7 @@ export default defineComponent({
         if ( !isPaused.value ) videoEl.value.play();
       }
     };
-    const setVideo = (breakpoint: string): void => {
+    const setVideo = (breakpoint: Breakpoint): void => {
       const { src, poster: pstr } = options.value[breakpoint];
       videoEl.value?.pause();
       currentTime.value = videoEl.value?.currentTime || 0;
