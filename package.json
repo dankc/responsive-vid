@@ -1,7 +1,7 @@
 {
-  "name": "responsive-video",
+  "name": "responsive-vid",
   "version": "1.0.0",
-  "description": "A TypeScript-supported library for Vue, JS modules, and browser scripts to dynamically swap video sources and posters based on media queries",
+  "description": "A TypeScript-supported library for Vue, JS modules, and browser to dynamically swap video sources and posters based on media queries",
   "keywords": [
     "vue",
     "typescript",
@@ -19,10 +19,10 @@
     "build": "npm run build:vue && npm run build:module && npm run build:browser",
     "test": "echo \"No tests specified\" && exit 1"
   },
-  "main": "./dist/module/responsive-video.cjs",
-  "module": "./dist/module/responsive-video.js",
-  "types": "./dist/module/responsive-video.d.ts",
-  "browser": "./dist/browser/responsive-video.js",
+  "main": "./dist/module/responsive-vid.cjs",
+  "module": "./dist/module/responsive-vid.js",
+  "types": "./dist/module/responsive-vid.d.ts",
+  "browser": "./dist/browser/responsive-vid.js",
   "files": [
     "dist/browser",
     "dist/module",
@@ -32,33 +32,33 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/module/responsive-video.d.ts",
-      "require": "./dist/module/responsive-video.cjs",
-      "import": "./dist/module/responsive-video.js"
+      "types": "./dist/module/responsive-vid.d.ts",
+      "require": "./dist/module/responsive-vid.cjs",
+      "import": "./dist/module/responsive-vid.js"
     },
     "./browser": {
-      "default": "./dist/browser/responsive-video.js"
+      "default": "./dist/browser/responsive-vid.js"
     },
     "./vue": {
-      "types": "./dist/vue/responsive-video.d.ts",
-      "require": "./dist/vue/responsive-video.cjs",
-      "import": "./dist/vue/responsive-video.js"
+      "types": "./dist/vue/responsive-vid.d.ts",
+      "require": "./dist/vue/responsive-vid.cjs",
+      "import": "./dist/vue/responsive-vid.js"
     },
     "./react": {
-      "types": "./dist/react/responsive-video.d.ts",
-      "require": "./dist/react/responsive-video.cjs",
-      "import": "./dist/react/responsive-video.js"
+      "types": "./dist/react/responsive-vid.d.ts",
+      "require": "./dist/react/responsive-vid.cjs",
+      "import": "./dist/react/responsive-vid.js"
     },
     "./package.json": "./package.json"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dankc/Responsive-Video.git"
+    "url": "git+https://github.com/dankc/responsive-vid.git"
   },
   "bugs": {
-    "url": "https://github.com/dankc/Responsive-Video/issues"
+    "url": "https://github.com/dankc/responsive-vid/issues"
   },
-  "homepage": "https://github.com/dankc/Responsive-Video#readme",
+  "homepage": "https://github.com/dankc/responsive-vid#readme",
   "author": {
     "name": "Dan Kiser",
     "email": "dankc@pm.me"

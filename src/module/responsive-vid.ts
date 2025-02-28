@@ -38,7 +38,7 @@ function validateBreakpoint(breakpoint: string): string {
 }
 
 // Supply the options in the DOM and have the script find them for you
-function AutoResponsiveVideo(): void {
+function autoResponsiveVideo(): void {
   const videoEls = getResponsiveVideos();
   videoEls.forEach( (videoEl) => {
     const options: ResponsiveVideoOptions = JSON.parse( videoEl.dataset.responsiveVideo );
@@ -55,10 +55,10 @@ class ResponsiveVideo {
 
   constructor({ el, options }: { el: HTMLVideoElement, options: ResponsiveVideoOptions }) {
     if ( !Object.keys( options ).length ) {
-      throw Error( 'No options provided to responsive-video.js' );
+      throw Error( 'No options provided to responsive-vid.js' );
     }
     if ( typeof el === 'string' || el.nodeName !== 'VIDEO' ) {
-      throw Error( 'Invalid "el" provided to responsive-video.js' );
+      throw Error( 'Invalid "el" provided to responsive-vid.js' );
     }
 
     this.videoEl = el;
@@ -124,4 +124,4 @@ class ResponsiveVideo {
   }
 }
 
-export { AutoResponsiveVideo, ResponsiveVideo };
+export { autoResponsiveVideo, ResponsiveVideo };

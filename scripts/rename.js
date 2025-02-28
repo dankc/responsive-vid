@@ -38,7 +38,7 @@ const rename = async () => {
   const cb = async (file, location) => {
     if (/\.d\.ts$/.test(file)) {
       const oldPath = path.join(location, file);
-      const newPath = path.join(location, 'responsive-video.d.ts');
+      const newPath = path.join(location, 'responsive-vid.d.ts');
       try {
         await fs.promises.rename(oldPath, newPath);
         console.log('Rename complete!');

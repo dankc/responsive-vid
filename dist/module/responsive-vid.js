@@ -22,7 +22,7 @@ function validateBreakpoint(breakpoint) {
     breakpoint = /^\(/.test(breakpoint) ? breakpoint : `(${breakpoint}`;
     return /\)$/.test(breakpoint) ? breakpoint : `${breakpoint})`;
 }
-function AutoResponsiveVideo() {
+function autoResponsiveVideo() {
     const videoEls = getResponsiveVideos();
     videoEls.forEach((videoEl) => {
         const options = JSON.parse(videoEl.dataset.responsiveVideo);
@@ -72,10 +72,10 @@ class ResponsiveVideo {
             }
         });
         if (!Object.keys(options).length) {
-            throw Error('No options provided to responsive-video.js');
+            throw Error('No options provided to responsive-vid.js');
         }
         if (typeof el === 'string' || el.nodeName !== 'VIDEO') {
-            throw Error('Invalid "el" provided to responsive-video.js');
+            throw Error('Invalid "el" provided to responsive-vid.js');
         }
         this.videoEl = el;
         this.options = options;
@@ -128,4 +128,4 @@ class ResponsiveVideo {
         this.videoEl.load();
     }
 }
-export { AutoResponsiveVideo, ResponsiveVideo };
+export { autoResponsiveVideo, ResponsiveVideo };

@@ -1,6 +1,5 @@
-# Responsive Video v1.0.0
+# Responsive Vid v1.0.0
 ![License: LGPL-3.0-or-later](https://img.shields.io/badge/License-LGPL--3.0--or--later-blue.svg)
-
 
 A TypeScript-supported library for Vue 3, JavaScript modules, and browser scripts to dynamically swap video sources and posters based on media queries. Perfect for autoplaying background videos with varying file sizes or aspect ratios across viewport widths—or any media query condition like resolution or orientation.
 
@@ -8,7 +7,7 @@ A TypeScript-supported library for Vue 3, JavaScript modules, and browser script
 Install via npm:
 
 ```bash
-npm i responsive-video
+npm i responsive-vid
 ```
 
 ### Browser Support
@@ -41,13 +40,13 @@ The `options` object uses media query strings as keys (e.g. `('width <= 767px')`
 Requires Vue 3.2+. Import the component and optional TypeScript types:
 
 ```typescript
-import type { ResponsiveVideoOptions } from 'responsive-video/vue';
-import ResponsiveVideo from 'responsive-video/vue';
+import type { ResponsiveVideoOptions } from 'responsive-vid/vue';
+import ResponsiveVideo from 'responsive-vid/vue';
 
 ```
 #### Props
 - `options`: The media query options object (see above)
-- `isautoplay`: Boolean (default: false). Adds `muted`, `autoplay`, `loop`, and `playsinline` attributes for seamless background playback.
+- `is-autoplay`: Boolean (default: false). Adds `muted`, `autoplay`, `loop`, and `playsinline` attributes for seamless background playback.
 
 #### Slots
 - **Default**: Fallback content if the video fails to load.
@@ -56,14 +55,14 @@ import ResponsiveVideo from 'responsive-video/vue';
 
 ```vue
 <template>
-  <ResponsiveVideo :options="responsiveVideoOpts" :isautoplay="true">
+  <ResponsiveVideo :options="responsiveVideoOpts" is-autoplay>
     <p>Video not supported</p>
   </ResponsiveVideo>
 </template>
 
 <script setup lang="ts">
-import type { ResponsiveVideoOptions } from 'responsive-video/vue';
-import ResponsiveVideo from 'responsive-video/vue';
+import type { ResponsiveVideoOptions } from 'responsive-vid/vue';
+import ResponsiveVideo from 'responsive-vid/vue';
 
 const responsiveVideoOpts: ResponsiveVideoOptions = {
   '(width <= 767px)': {
@@ -91,7 +90,7 @@ Scans for `<video>` elements with a `data-responsive-video` attribute containing
 - **Module Build**: ES module for modern workflows.
 
 #### Browser Build
-Host `responsive-video.js` and initialize it:
+Host `responsive-vid.js` and initialize it:
 
 ```html
 <video data-responsive-video='{
@@ -111,7 +110,7 @@ Host `responsive-video.js` and initialize it:
 >
 </video>
 
-<script src="/path/to/responsive-video.js"></script>
+<script src="/path/to/responsive-vid.js"></script>
 <script>
   window.addEventListener('load', () => ResponsiveVideo());
 </script>
@@ -121,8 +120,8 @@ Import and run:
 
 ```html
 <script type="module">
-  import { AutoResponsiveVideo } from 'responsive-video';
-  window.addEventListener('load', () => AutoResponsiveVideo());
+  import { autoResponsiveVideo } from 'responsive-vid';
+  window.addEventListener('load', () => autoResponsiveVideo());
 </script>
 ```
 
@@ -130,8 +129,8 @@ Import and run:
 A class for fine-grained control, ideal when options live in your JS/TS code. Import from the module build:
 
 ```typescript
-import type { ResponsiveVideoOptions } from 'responsive-video';
-import { ResponsiveVideo } from 'responsive-video';
+import type { ResponsiveVideoOptions } from 'responsive-vid';
+import { ResponsiveVideo } from 'responsive-vid';
 ```
 
 #### Example:

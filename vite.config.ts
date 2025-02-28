@@ -11,9 +11,9 @@ const formats: {[K in BuildTypes]: LibraryFormats[]} = {
 }
 
 const entries = {
-  browser: 'src/browser/responsive-video.ts',
-  vue: 'src/vue/ResponsiveVideo.vue',
-  module: 'src/module/responsive-video.ts',
+  browser: 'src/browser/responsive-vid.ts',
+  vue: 'src/vue/ResponsiveVid.vue',
+  module: 'src/module/responsive-vid.ts',
 }
 
 // Helper to create build configuration based on target
@@ -34,7 +34,7 @@ function createBuildConfig(target: BuildTypes) {
         entry: resolve(__dirname, entries[target]),
         name: 'ResponsiveVideo',
         formats: formats[target],
-        fileName: target === 'browser' ? () => 'responsive-video.js' : undefined
+        fileName: target === 'browser' ? () => 'responsive-vid.js' : undefined
       },
       rollupOptions: {
         external: isVue ? ['vue'] : [],

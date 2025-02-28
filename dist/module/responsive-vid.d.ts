@@ -6,7 +6,7 @@ type Breakpoint = `${'('}${string}${')'}`;
 export type ResponsiveVideoOptions = {
     [key: Breakpoint]: BreakpointOptions;
 };
-declare function AutoResponsiveVideo(): void;
+declare function autoResponsiveVideo(): void;
 declare class ResponsiveVideo {
     private readonly videoEl;
     private readonly options;
@@ -21,4 +21,4 @@ declare class ResponsiveVideo {
     pauseListener: () => void;
     addVideo(breakpoint: Breakpoint): void;
 }
-export { AutoResponsiveVideo, ResponsiveVideo };
+export { autoResponsiveVideo, ResponsiveVideo };
