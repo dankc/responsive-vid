@@ -1,0 +1,89 @@
+{
+  "name": "responsive-vid",
+  "version": "1.0.0",
+  "description": "A TypeScript-supported library for Vue, JS modules, and browser to dynamically swap video sources and posters based on media queries",
+  "keywords": [
+    "vue",
+    "typescript",
+    "responsive",
+    "video"
+  ],
+  "readme": "./README.md",
+  "license": "LGPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "build:vue": "cross-env BUILD_TARGET=vue vite build && vue-tsc --declaration --emitDeclarationOnly --project tsconfig.vue.json && node ./scripts/rename.js",
+    "build:browser": "cross-env BUILD_TARGET=browser vite build && tsc --project tsconfig.module.json",
+    "build:module": "cross-env BUILD_TARGET=module vite build && tsc --project tsconfig.module.json && node ./scripts/rename.js",
+    "build:react": "echo 'React build not implemented yet'",
+    "build": "npm run build:vue && npm run build:module && npm run build:browser",
+    "test": "echo \"No tests specified\" && exit 1"
+  },
+  "main": "./dist/module/responsive-vid.cjs",
+  "module": "./dist/module/responsive-vid.js",
+  "types": "./dist/module/responsive-vid.d.ts",
+  "browser": "./dist/browser/responsive-vid.js",
+  "files": [
+    "dist/browser",
+    "dist/module",
+    "dist/vue",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/module/responsive-vid.d.ts",
+      "require": "./dist/module/responsive-vid.cjs",
+      "import": "./dist/module/responsive-vid.js"
+    },
+    "./browser": {
+      "default": "./dist/browser/responsive-vid.js"
+    },
+    "./vue": {
+      "types": "./dist/vue/responsive-vid.d.ts",
+      "require": "./dist/vue/responsive-vid.cjs",
+      "import": "./dist/vue/responsive-vid.js"
+    },
+    "./react": {
+      "types": "./dist/react/responsive-vid.d.ts",
+      "require": "./dist/react/responsive-vid.cjs",
+      "import": "./dist/react/responsive-vid.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dankc/responsive-vid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dankc/responsive-vid/issues"
+  },
+  "homepage": "https://github.com/dankc/responsive-vid#readme",
+  "author": {
+    "name": "Dan Kiser",
+    "email": "dankc@pm.me"
+  },
+  "peerDependencies": {
+    "vue": "^3.2"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.5.0",
+    "cross-env": "^7.0.3",
+    "rollup": "^4.30.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "typescript": ">=4.4.4",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.5.0",
+    "vue": "3.2",
+    "vue-tsc": "^2.0.0"
+  },
+  "sideEffects": false
+}
