@@ -38,12 +38,19 @@ function validateBreakpoint(breakpoint: string): string {
 }
 
 // Supply the options in the DOM and have the script find them for you
-function autoResponsiveVideo(): void {
+function autoResponsiveVideo(): () => void {
   const videoEls = getResponsiveVideos();
-  videoEls.forEach((videoEl) => {
+  const instances: Array<ResponsiveVideo> = videoEls.map((videoEl) => {
     const options: ResponsiveVideoOptions = JSON.parse(videoEl.dataset.responsiveVideo);
-    new ResponsiveVideo({ el: videoEl, options });
+    return new ResponsiveVideo({ el: videoEl, options });
   });
+
+  return () => {
+    while (instances.length > 0) {
+      const instance = instances.pop();
+      if (instance) instance.destroy();
+    }
+  };
 }
 
 // Manually set up your responsive videos in JS
@@ -52,6 +59,7 @@ class ResponsiveVideo {
   private readonly options: ResponsiveVideoOptions;
   private breakpoints: Breakpoint[];
   private isPaused: boolean;
+  private listeners: Array<() => void> = [];
 
   constructor({ el, options }: { el: HTMLVideoElement; options: ResponsiveVideoOptions }) {
     if (!Object.keys(options).length) {
@@ -71,18 +79,23 @@ class ResponsiveVideo {
   init() {
     this.videoEl.addEventListener('pause', this.pauseListener);
     this.videoEl.addEventListener('play', this.playListener);
+    this.listeners.push(() => this.videoEl.removeEventListener('pause', this.pauseListener));
+    this.listeners.push(() => this.videoEl.removeEventListener('play', this.playListener));
+
     this.breakpoints.forEach((breakpoint) => {
       const bp = validateBreakpoint(breakpoint);
       const mediaQuery = window.matchMedia(bp);
+      const listener = ({ matches }: MediaQueryListEvent) => {
+        if (matches) {
+          this.addVideo(breakpoint);
+        }
+      };
 
       // Initially add the appropriate video
       if (mediaQuery.matches) this.addVideo(breakpoint);
 
-      mediaQuery.addEventListener('change', ({ matches }) => {
-        if (matches) {
-          this.addVideo(breakpoint);
-        }
-      });
+      mediaQuery.addEventListener('change', listener);
+      this.listeners.push(() => mediaQuery.removeEventListener('change', listener));
     });
   }
 
@@ -121,6 +134,13 @@ class ResponsiveVideo {
 
     this.videoEl.addEventListener('loadedmetadata', loadListener);
     this.videoEl.load();
+  }
+
+  destroy() {
+    while (this.listeners.length > 0) {
+      const listener = this.listeners.pop();
+      if (listener) listener();
+    }
   }
 }
 

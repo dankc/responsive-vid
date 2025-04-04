@@ -169,7 +169,11 @@ Host `responsive-vid.js` and initialize it:
 
 <script src="/path/to/responsive-vid.js"></script>
 <script>
-  window.addEventListener('load', () => ResponsiveVideo());
+  let cleanup;
+  window.addEventListener('load', () => { cleanup = ResponsiveVideo() });
+  
+  // Later, to remove event listeners on all instances:
+  cleanup();
 </script>
 ```
 #### Module Build
@@ -178,7 +182,12 @@ Import and run:
 ```html
 <script type="module">
   import { autoResponsiveVideo } from 'responsive-vid';
-  window.addEventListener('load', () => autoResponsiveVideo());
+  
+  let cleanup;
+  window.addEventListener('load', () => { cleanup = autoResponsiveVideo() });
+  
+  // Later, to remove event listeners on all instances:
+  cleanup();
 </script>
 ```
 
@@ -208,8 +217,12 @@ const videoOptions: ResponsiveVideoOptions = {
   }
 };
 
-new ResponsiveVideo({ 
+const responsiveVideo = new ResponsiveVideo({ 
   el: videoEl, 
   options: videoOptions,
 });
+
+// Later, to remove event listeners:
+responsiveVideo.destroy();
 ```
+
