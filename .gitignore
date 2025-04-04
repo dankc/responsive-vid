@@ -1,6 +1,6 @@
 .DS_Store
 .idea
 node_modules
-#/dist
-/pack
-/demo
+dist/
+pack/
+demo/

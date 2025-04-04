@@ -1,29 +1,21 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "useDefineForClassFields": true,
     "module": "es6",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "sourceMap": false,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "skipLibCheck": false,
-    "noEmit": false,
     "declaration": true,
     "paths": {
       "@/*": ["./src/*"]
     },
+    "types": ["vue"],
     "typeRoots": ["./node_modules/@types", "./node_modules/vue/dist"],
     "baseUrl": ".",
     "outDir": "./dist/vue/",
-    "removeComments": true,
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true
+    "removeComments": true
   },
   "include": [
-    "src/**/*.d.ts",
     "src/**/*.vue"
   ],
   "exclude": ["node_modules", "dist"],

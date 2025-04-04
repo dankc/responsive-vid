@@ -66,7 +66,7 @@
         const splits = url.split('.');
         const type = splits[splits.length - 1];
         // Return undefined if video is an url
-        return validMimeTypes.includes(type) ? `video/${type}` : undefined;
+        return validMimeTypes.some((t) => t === type) ? `video/${type}` : undefined;
       };
       const validateBreakpoint = (breakpoint: Breakpoint) => {
         // Find any missing parenthesis and add them to the media query
