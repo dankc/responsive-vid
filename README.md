@@ -1,7 +1,18 @@
-# Responsive Vid v1.0.0
+# Responsive-Vid
+[![vue3](https://img.shields.io/badge/Vue-v3.2+-green.svg)](https://v3.vuejs.org/)
+[![React](https://img.shields.io/badge/React-v17.0+-61DAFB.svg)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/types-TypeScript-blue.svg)](https://v3.vuejs.org/)
+![Downloads](https://img.shields.io/npm/dm/responsive-vid.svg)
+[![bundle-size](https://badgen.net/bundlephobia/min/responsive-vid)](https://bundlephobia.com/result?p=responsive-vid)
 ![License: LGPL-3.0-or-later](https://img.shields.io/badge/License-LGPL--3.0--or--later-blue.svg)
 
-A TypeScript-supported library for Vue 3, JavaScript modules, and browser scripts to dynamically swap video sources and posters based on media queries. Perfect for autoplaying background videos with varying file sizes or aspect ratios across viewport widths—or any media query condition like resolution or orientation.
+A TypeScript-powered library to dynamically swap responsive video sources and posters using media queries for Vue, React, JS modules, and browsers. Perfect for autoplaying background videos with varying file sizes or aspect ratios across viewport widths—or any media query condition like resolution or orientation.
+
+## Features
+- Swap video sources and posters dynamically with media queries.
+- Supports Vue 3, React 17+, ES modules, and plain JS browser scripts.
+- TypeScript-ready with full type definitions.
+- Perfect for responsive background videos, orientation changes, or resolution tweaks.
 
 ## How to use
 Install via npm:
@@ -81,6 +92,52 @@ const responsiveVideoOpts: ResponsiveVideoOptions = {
 </script>
 ```
 
+### React
+Requires React and React DOM v17+. Import the component and optional TypeScript types:
+
+```typescript
+import type { ResponsiveVideoOptions, ResponsiveVideoProps } from 'responsive-vid/react';
+import ResponsiveVideo from 'responsive-vid/react';
+
+```
+#### Props
+- `options`: The media query options object (see above)
+- `isAutoplay`: Boolean (default: false). Adds `muted`, `autoPlay`, `loop`, and `playsInline` attributes for seamless background playback.
+
+#### Children
+Fallback content if the video fails to load.
+
+#### Example:
+
+```tsx
+import type { ResponsiveVideoOptions } from 'responsive-vid/react';
+import ResponsiveVideo from 'responsive-vid/react';
+
+const responsiveVideoOpts: ResponsiveVideoOptions = {
+  '(width <= 767px)': {
+    src: ['https://example.com/video-sm.mp4'],
+    poster: 'https://example.com/poster-sm.jpg'
+  },
+  '(768px <= width <= 1024px)': {
+    src: ['https://example.com/video-md.mp4', 'https://example.com/video-md.webm'],
+    poster: 'https://example.com/poster-md.jpg'
+  },
+  '(width >= 1025px)': {
+    src: 'https://example.com/video-lg.mp4',
+    poster: 'https://example.com/poster-lg.jpg'
+  }
+};
+
+export default function YourComponent() {
+  
+  return (
+    <ResponsiveVideo options={responsiveVideoOpts} isAutoplay={true}>
+      <p>Video not supported</p>
+    </ResponsiveVideo>
+  )
+}
+```
+
 ## Javascript
 Two flavors: an automatic function and a manual class, both with TypeScript support.
 
@@ -112,7 +169,11 @@ Host `responsive-vid.js` and initialize it:
 
 <script src="/path/to/responsive-vid.js"></script>
 <script>
-  window.addEventListener('load', () => ResponsiveVideo());
+  let cleanup;
+  window.addEventListener('load', () => { cleanup = ResponsiveVideo() });
+  
+  // Later, to remove event listeners on all instances:
+  cleanup();
 </script>
 ```
 #### Module Build
@@ -121,7 +182,12 @@ Import and run:
 ```html
 <script type="module">
   import { autoResponsiveVideo } from 'responsive-vid';
-  window.addEventListener('load', () => autoResponsiveVideo());
+  
+  let cleanup;
+  window.addEventListener('load', () => { cleanup = autoResponsiveVideo() });
+  
+  // Later, to remove event listeners on all instances:
+  cleanup();
 </script>
 ```
 
@@ -151,12 +217,12 @@ const videoOptions: ResponsiveVideoOptions = {
   }
 };
 
-new ResponsiveVideo({ 
+const responsiveVideo = new ResponsiveVideo({ 
   el: videoEl, 
   options: videoOptions,
 });
+
+// Later, to remove event listeners:
+responsiveVideo.destroy();
 ```
 
-## Roadmap
-
-- Add React component
